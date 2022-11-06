@@ -1,0 +1,2 @@
+# SMEEMS
+SMEEMS - Appetizer Hackathon
