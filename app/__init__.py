@@ -1,4 +1,5 @@
 from flask import Flask, request, abort
+from flask_cors import CORS
 
 from app.bot_handlers import handler
 from linebot.exceptions import (
@@ -6,6 +7,9 @@ from linebot.exceptions import (
 )
 
 app = Flask(__name__)
+
+# handle cors with flask-cors
+CORS(app)
 
 @app.route("/callback", methods=['POST'])
 def callback():

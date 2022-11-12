@@ -3,3 +3,4 @@ firebase_admin
 line-bot-sdk
 python-dotenv
 gunicorn
+flask-cors
