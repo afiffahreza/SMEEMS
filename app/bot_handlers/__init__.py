@@ -1,11 +1,11 @@
-from linebot import WebhookHandler
 from linebot.models import (
     MessageEvent, TextMessage,
 )
 from app.bot_handlers.hello import command_hello
-from app.config import CHANNEL_SECRET
+from app.bot_handlers.ping import command_ping
+from app.config.line import handler
 
-handler = WebhookHandler(CHANNEL_SECRET)
+print('Loading handlers...')
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -15,3 +15,5 @@ def handle_message(event):
         print("Command: " + command)
         if command == 'hello':
             command_hello(event)
+        elif command == 'ping':
+            command_ping(event)
