@@ -6,6 +6,10 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 
+# seed database
+from app.config.seed import seed
+seed()
+
 app = Flask(__name__)
 
 # handle cors with flask-cors
