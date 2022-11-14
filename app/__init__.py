@@ -43,5 +43,5 @@ def hello():
 
 # register blueprints
 app.register_blueprint(plans_controller.plans_bp)
-app.register_blueprint(promos_controller.promo_bp)
+app.register_blueprint(promos_controller.promos_bp)
 app.register_blueprint(smes_controller.smes_bp)
