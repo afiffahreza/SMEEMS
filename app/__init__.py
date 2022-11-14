@@ -6,6 +6,9 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 
+# import blueprints
+from app.blueprints import plans_controller, promos_controller, smes_controller
+
 # seed database
 from app.config.seed import seed
 seed()
@@ -37,3 +40,8 @@ def callback():
 @app.route("/")
 def hello():
     return "Hello World!"
+
+# register blueprints
+app.register_blueprint(plans_controller.plans_bp)
+app.register_blueprint(promos_controller.promos_bp)
+app.register_blueprint(smes_controller.smes_bp)

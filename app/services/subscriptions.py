@@ -33,3 +33,4 @@ def delete_subscription(subscription_id):
     # Delete a subscription
     subscription_ref = subscriptions_ref.document(subscription_id)
     subscription_ref.delete()
+    return "subscription_id: " + subscription_id + " deleted"

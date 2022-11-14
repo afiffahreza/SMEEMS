@@ -28,3 +28,4 @@ def delete_user(user_id):
     # Delete a user
     user_ref = users_ref.document(user_id)
     user_ref.delete()
+    return "user_id: " + user_id + " deleted"
