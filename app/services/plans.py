@@ -33,3 +33,4 @@ def delete_plan(plan_id):
     # Delete a plan
     plan_ref = plans_ref.document(plan_id)
     plan_ref.delete()
+    return "plan_id: " + plan_id + " deleted"

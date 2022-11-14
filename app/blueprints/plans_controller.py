@@ -31,7 +31,8 @@ def update_plan(id):
 
 @plans_bp.route('/plans/<id>', methods=['DELETE'])
 def delete_plan(id):
-    return plans.delete_plan(id)
+    message = plans.delete_plan(id)
+    return {"message": message}, 200
 
 # Create a new plan
 @plans_bp.route('/plans', methods=['POST'])

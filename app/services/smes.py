@@ -28,3 +28,4 @@ def delete_sme(sme_id):
     # Delete a sme
     sme_ref = smes_ref.document(sme_id)
     sme_ref.delete()
+    return "sme_id: " + sme_id + " deleted"
