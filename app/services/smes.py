@@ -18,6 +18,13 @@ def get_sme(sme_id):
     else:
         return None
 
+def get_smes():
+    # Get all smes
+    smes = []
+    for sme in smes_ref.stream():
+        smes.append(sme.to_dict())
+    return smes
+
 def update_sme(sme_id, sme_data):
     # Update a sme
     sme_ref = smes_ref.document(sme_id)

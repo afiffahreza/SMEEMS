@@ -1,8 +1,9 @@
 from linebot.models import (
     MessageEvent, TextMessage,
 )
-from app.bot_handlers.hello import command_hello
 from app.bot_handlers.ping import command_ping
+from app.bot_handlers.user_cmd import command_help, command_register
+from app.bot_handlers.sme_cmd import command_smes_list, command_sme_info, command_plans_list, command_subscription_list, command_subscribe
 from app.config.line import handler
 
 print('Loading handlers...')
@@ -13,7 +14,23 @@ def handle_message(event):
     if text.startswith('smeems '):
         command = text.split(' ')[1]
         print("Command: " + command)
-        if command == 'hello':
-            command_hello(event)
-        elif command == 'ping':
+        if command == 'ping':
             command_ping(event)
+        elif command == 'help':
+            command_help(event)
+        elif command == 'register':
+            email = text.split(' ')[2]
+            command_register(event, email)
+        elif command == 'smes':
+            command_smes_list(event)
+        elif command == 'sme':
+            sme_id = text.split(' ')[2]
+            command_sme_info(event, sme_id)
+        elif command == 'plans':
+            sme_id = text.split(' ')[2]
+            command_plans_list(event, sme_id)
+        elif command == 'subscriptions':
+            command_subscription_list(event)
+        elif command == 'subscribe':
+            plan_id = text.split(' ')[2]
+            command_subscribe(event, plan_id)
