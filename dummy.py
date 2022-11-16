@@ -67,10 +67,12 @@ def createFlexBubbleSMEs():
     temp = []
     for i in testData:
         tempTemplate = contentTemplate
+
         tempTemplate["action"]["label"] = i["name"]
         tempTemplate["action"]["text"] = i["id"]
         
-        temp.append(tempTemplate)
+        temp = temp[:] + [tempTemplate]
+        # temp.append(tempTemplate)
         
         print(temp)
         print("")
