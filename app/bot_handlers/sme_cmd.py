@@ -17,7 +17,8 @@ contentTemplate = {
         "text": "uuid"
     },
     "style": "primary",
-    "color": "#FF735C"
+    "color": "#FF735C",
+    "margin": "md"
 }
 
 bubbleJSON = {
@@ -72,8 +73,8 @@ def command_smes_list(event):
         print(flexMessage)
         line_bot_api.reply_message(
             event.reply_token,
-            # FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
-            TextSendMessage(text=flexMessage)
+            FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
+            # TextSendMessage(text=flexMessage)
         )
     else:
         text_reply = 'No SME found'

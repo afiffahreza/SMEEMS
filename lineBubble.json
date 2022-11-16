@@ -28,7 +28,19 @@
           "text": "uuid"
         },
         "style": "primary",
-        "color": "#FF735C"
+        "color": "#FF735C",
+        "margin": "none"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "label",
+          "text": "text"
+        },
+        "style": "primary",
+        "color": "#FF735C",
+        "margin": "md"
       }
     ],
     "action": {
