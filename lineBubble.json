@@ -1,0 +1,40 @@
+{
+  "type": "bubble",
+  "hero": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Pick a SME!",
+        "margin": "lg",
+        "size": "xxl",
+        "weight": "bold"
+      }
+    ],
+    "spacing": "xs",
+    "margin": "md",
+    "alignItems": "center"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "Placeholder",
+          "text": "uuid"
+        },
+        "style": "primary",
+        "color": "#FF735C"
+      }
+    ],
+    "action": {
+      "type": "message",
+      "label": "action",
+      "text": "hello"
+    }
+  }
+}
