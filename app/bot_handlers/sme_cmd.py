@@ -58,7 +58,7 @@ def createFlexBubbleSMEs(smes):
         tempTemplate = copy.deepcopy(contentTemplate)
 
         tempTemplate["action"]["label"] = i["name"]
-        tempTemplate["action"]["text"] = i["id"]
+        tempTemplate["action"]["text"] = "smeems sme " + i["id"]
 
         temp.append(tempTemplate)
 
