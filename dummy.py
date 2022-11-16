@@ -1,3 +1,4 @@
+import copy
 contentTemplate = {
     "type": "button",
     "action": {
@@ -66,13 +67,12 @@ def testAppend():
 def createFlexBubbleSMEs():
     temp = []
     for i in testData:
-        tempTemplate = contentTemplate
+        tempTemplate = copy.deepcopy(contentTemplate)
 
         tempTemplate["action"]["label"] = i["name"]
         tempTemplate["action"]["text"] = i["id"]
         
-        temp = temp[:] + [tempTemplate]
-        # temp.append(tempTemplate)
+        temp.append(tempTemplate)
         
         print(temp)
         print("")

@@ -1,24 +1,84 @@
-from linebot.models import TextSendMessage
+from linebot.models import TextSendMessage, FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
 import uuid
+import copy
 
 print('Loading sme commands...')
+
+contentTemplate = {
+    "type": "button",
+    "action": {
+        "type": "message",
+        "label": "Placeholder",
+        "text": "uuid"
+    },
+    "style": "primary",
+    "color": "#FF735C"
+}
+
+bubbleJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "Pick a SME!",
+                "margin": "lg",
+                "size": "xxl",
+                "weight": "bold"
+            }
+        ],
+        "spacing": "xs",
+        "margin": "md",
+        "alignItems": "center"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [],
+        "action": {
+            "type": "message",
+            "label": "action",
+            "text": "hello"
+        }
+    }
+}
+
+
+def createFlexBubbleSMEs(smes):
+    temp = []
+    for i in smes:
+        tempTemplate = copy.deepcopy(contentTemplate)
+
+        tempTemplate["action"]["label"] = i["name"]
+        tempTemplate["action"]["text"] = i["id"]
+
+        temp.append(tempTemplate)
+
+    bubbleJSON["body"]["contents"] = temp
+    return bubbleJSON["body"]["contents"]
+
 
 def command_smes_list(event):
     smes = get_smes()
     if len(smes) > 0:
-        text_reply = 'Available SMEs:\n'
-        for sme in smes:
-            text_reply += sme['id'] + ' ' + sme['name'] + '\n'
+        flexMessage = createFlexBubbleSMEs(smes)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
+        )
     else:
         text_reply = 'No SME found'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_reply))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=text_reply)
+        )
 
 
 def command_sme_info(event, sme_id):
@@ -71,8 +131,7 @@ def command_subscribe(event, plan_id):
     plan = get_plan(plan_id)
     if plan is not None:
         sme = get_sme(plan['sme_id'])
-        text_reply = 'You have subscribed to ' + \
-            sme['name'] + ' ' + plan['name']
+        text_reply = 'You have subscribed to ' + sme['name'] + ' ' + plan['name']
         user = get_user(event.source.user_id)
         id = str(uuid.uuid4())
         subscription_data = {
