@@ -15,7 +15,8 @@ def command_smes_list(event):
         count = 1
         for sme in smes:
             # note buat di button pake sme['id']
-            text_reply += count + ' ' + sme['name'] + '\n'
+            text_reply += str(count) + ' ' + sme['name'] + '\n'
+            count += 1
     else:
         text_reply='No SME found'
     line_bot_api.reply_message(
