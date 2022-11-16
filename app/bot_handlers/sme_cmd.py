@@ -71,7 +71,8 @@ def command_smes_list(event):
         flexMessage = createFlexBubbleSMEs(smes)
         line_bot_api.reply_message(
             event.reply_token,
-            FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
+            # FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
+            TextSendMessage(text=flexMessage)
         )
     else:
         text_reply = 'No SME found'
