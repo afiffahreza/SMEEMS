@@ -69,6 +69,7 @@ def command_smes_list(event):
     smes = get_smes()
     if len(smes) > 0:
         flexMessage = createFlexBubbleSMEs(smes)
+        print(flexMessage)
         line_bot_api.reply_message(
             event.reply_token,
             # FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
