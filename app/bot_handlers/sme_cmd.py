@@ -113,37 +113,44 @@ def command_plans_list(event, sme_id):
 
 def command_subscription_list(event):
     user = get_user(event.source.user_id)
-    subscriptions = get_subscriptions(user['id'])
-    if len(subscriptions) > 0:
-        text_reply = 'Your subscriptions:\n'
-        for subscription in subscriptions:
-            plan = get_plan(subscription['plan_id'])
-            sme = get_sme(plan['sme_id'])
-            text_reply += sme['name'] + ' ' + plan['name'] + '\n'
+    if user is not None:
+        subscriptions = get_subscriptions(user['id'])
+        if len(subscriptions) > 0:
+            text_reply='Your subscriptions:\n'
+            for subscription in subscriptions:
+                plan = get_plan(subscription['plan_id'])
+                sme = get_sme(plan['sme_id'])
+                text_reply += sme['name'] + ' ' + plan['name'] + '\n'
+        else:
+            text_reply='You have no subscription'
     else:
-        text_reply = 'You have no active subscription'
+        text_reply='You are not registered'
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text_reply))
 
 
 def command_subscribe(event, plan_id):
-    plan = get_plan(plan_id)
-    if plan is not None:
-        sme = get_sme(plan['sme_id'])
-        text_reply = 'You have subscribed to ' + sme['name'] + ' ' + plan['name']
-        user = get_user(event.source.user_id)
-        id = str(uuid.uuid4())
-        subscription_data = {
-            'id': id,
-            'user_id': user['id'],
-            'plan_id': plan['id'],
-            'status': 'active',
-            'start_date': '2022-11-16',
-            'end_date': '2022-12-16'
-        }
+    user = get_user(event.source.user_id)
+    if user is not None:
+        plan = get_plan(plan_id)
+        if plan is not None:
+            sme = get_sme(plan['sme_id'])
+            text_reply='You have subscribed to ' + sme['name'] + ' ' + plan['name']
+            id = str(uuid.uuid4())
+            subscription_data = {
+                'id': id,
+                'user_id': user['id'],
+                'plan_id': plan['id'],
+                'status': 'active',
+                'start_date': '2022-11-16',
+                'end_date': '2022-12-16'
+            }
+            create_subscription(subscription_data)
+        else:
+            text_reply='Plan not found'
     else:
-        text_reply = 'Plan not found'
+        text_reply='You are not registered'
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=text_reply))
