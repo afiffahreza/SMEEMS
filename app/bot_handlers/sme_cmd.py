@@ -62,7 +62,7 @@ def createFlexBubbleSMEs(smes):
         temp.append(tempTemplate)
 
     bubbleJSON["body"]["contents"] = temp
-    return bubbleJSON["body"]["contents"]
+    return bubbleJSON
 
 
 def command_smes_list(event):
