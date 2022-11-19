@@ -4,7 +4,7 @@ from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
-from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo, createFlexBubbleSMEPlans, createFlexBubbleError
+from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo, createFlexBubbleSMEPlans, createFlexBubbleError, createFlexBubbleSuccess
 import uuid
 
 print('Loading sme commands...')
@@ -93,6 +93,19 @@ def command_subscribe(event, plan_id):
     if user is not None:
         plan = get_plan(plan_id)
         if plan is not None:
+
+            # check if the user already have the same plan
+            subscriptions = get_subscriptions(user['id'])
+            for subscription in subscriptions:
+                if subscription['plan_id'] == plan['id']:
+                    error_msg='You already have the plan'
+                    flexMessage = createFlexBubbleError(error_msg)
+                    line_bot_api.reply_message(
+                        event.reply_token,
+                        FlexSendMessage(alt_text=error_msg, contents=flexMessage)
+                    )
+                    return
+
             sme = get_sme(plan['sme_id'])
             text_reply='You have subscribed to ' + sme['name'] + ' ' + plan['name']
             id = str(uuid.uuid4())
@@ -100,15 +113,30 @@ def command_subscribe(event, plan_id):
                 'id': id,
                 'user_id': user['id'],
                 'plan_id': plan['id'],
-                'status': 'active',
-                'start_date': '2022-11-16',
-                'end_date': '2022-12-16'
+                'status': 'inactive',
+                'start_date': '-',
+                'end_date': '-'
             }
             create_subscription(subscription_data)
+
+            flexMessage = createFlexBubbleSuccess(text_reply)
+            line_bot_api.reply_message(
+                event.reply_token,
+                FlexSendMessage(alt_text=text_reply, contents=flexMessage)
+            )
+
         else:
             text_reply='Plan not found'
+            flexMessage = createFlexBubbleError(text_reply)
+            line_bot_api.reply_message(
+                event.reply_token,
+                FlexSendMessage(alt_text=text_reply, contents=flexMessage)
+            )
+    
     else:
         text_reply='You are not registered'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_reply))
+        flexMessage = createFlexBubbleError(text_reply)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text=text_reply, contents=flexMessage)
+        )

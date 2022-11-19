@@ -42,6 +42,54 @@ separatorTemplate = {
     "margin": "lg"
 }
 
+# ==================== Success Messages ====================
+
+successJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/845/845646.png",
+            "size": "30px"
+        },
+        {
+            "type": "text",
+            "text": "Success",
+            "margin": "lg",
+            "size": "20px",
+            "weight": "bold"
+        },
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/845/845646.png",
+            "size": "30px"
+        }
+        ],
+        "spacing": "xs",
+        "margin": "lg",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "paddingAll": "10px"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+            "type": "text",
+            "text": "Success Message"
+        }
+        ]
+    }
+}
+
+def createFlexBubbleSuccess(success):
+    successJSON["body"]["contents"][0]["text"] = success
+    return successJSON
+
 # ==================== Warning Messages ====================
 
 errorJSON = {
@@ -59,7 +107,7 @@ errorJSON = {
             "type": "text",
             "text": "Warning",
             "margin": "lg",
-            "size": "xl",
+            "size": "20px",
             "weight": "bold"
         },
         {
