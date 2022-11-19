@@ -1,6 +1,8 @@
 import copy
 
-# ==================== SME List ====================
+# ==================== Templates ====================
+
+true = True #lol
 
 buttonTemplate = {
     "type": "button",
@@ -13,6 +15,34 @@ buttonTemplate = {
     "color": "#FF735C",
     "margin": "md"
 }
+
+headerTextTemplate = {
+    "type": "text",
+    "text": "Placeholder",
+    "margin": "md",
+    "weight": "bold"
+}
+
+priceTextTemplate = {
+    "type": "text",
+    "text": "$20",
+    "margin": "md",
+    "color": "#FF735C"
+    }
+
+descriptionTextTemplate = {
+    "type": "text",
+    "text": "This is a placeholder for the plan description hehehehehe",
+    "margin": "md",
+    "wrap": true
+}
+
+separatorTemplate = {
+    "type": "separator",
+    "margin": "lg"
+}
+
+# ==================== SME List ====================
 
 SMEBubbleJSON = {
     "type": "bubble",
@@ -91,7 +121,7 @@ SMEInfoBubbleJSON = {
             },
             {
                 "type": "text",
-                "text": "Address",
+                "text": "Address:",
                 "margin": "md",
                 "weight": "bold"
             },
@@ -103,7 +133,7 @@ SMEInfoBubbleJSON = {
             },
             {
                 "type": "text",
-                "text": "Description",
+                "text": "Description:",
                 "margin": "md",
                 "weight": "bold"
             },
@@ -135,3 +165,55 @@ def createFlexBubbleSMEInfo(sme):
     SMEInfoBubbleJSON["body"]["contents"][5]["text"] = sme["description"]
     SMEInfoBubbleJSON["body"]["contents"][6]["action"]["text"] = "smeems plans " + sme["id"]
     return SMEInfoBubbleJSON
+
+# ==================== SME Plan List ====================
+
+SMEBubbleJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "Placeholder",
+                "margin": "lg",
+                "size": "xxl",
+                "weight": "bold"
+            }
+        ],
+        "spacing": "xs",
+        "margin": "md",
+        "alignItems": "center"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": []
+    }
+}
+
+def createFlexBubbleSMEPlans(sme, plans):
+    temp = []
+    for i in plans:
+        tempHeaderTemplate = copy.deepcopy(headerTextTemplate)
+        tempPriceTemplate = copy.deepcopy(priceTextTemplate)
+        tempDescriptionTemplate = copy.deepcopy(descriptionTextTemplate)
+        tempButtonTemplate = copy.deepcopy(buttonTemplate)
+
+        tempHeaderTemplate["text"] = i["name"]
+        tempPriceTemplate["text"] = "$" + str(i["price"])
+        tempDescriptionTemplate["text"] = i["description"]
+
+        tempButtonTemplate["action"]["label"] = "Click to Subscribe"
+        tempButtonTemplate["action"]["text"] = "smeems subscribe " + i["id"]
+
+        temp.append(tempHeaderTemplate)
+        temp.append(tempPriceTemplate)
+        temp.append(tempDescriptionTemplate)
+        temp.append(tempButtonTemplate)
+        temp.append(copy.deepcopy(separatorTemplate))
+
+    SMEBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
+    SMEBubbleJSON["body"]["contents"] = temp
+    return SMEBubbleJSON
