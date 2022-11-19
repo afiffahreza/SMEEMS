@@ -4,67 +4,10 @@ from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
+from app.bot_handlers.msg_templates import createFlexBubbleSMEs
 import uuid
-import copy
 
 print('Loading sme commands...')
-
-contentTemplate = {
-    "type": "button",
-    "action": {
-        "type": "message",
-        "label": "Placeholder",
-        "text": "uuid"
-    },
-    "style": "primary",
-    "color": "#FF735C",
-    "margin": "md"
-}
-
-bubbleJSON = {
-    "type": "bubble",
-    "hero": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-            {
-                "type": "text",
-                "text": "Pick a SME!",
-                "margin": "lg",
-                "size": "xxl",
-                "weight": "bold"
-            }
-        ],
-        "spacing": "xs",
-        "margin": "md",
-        "alignItems": "center"
-    },
-    "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [],
-        "action": {
-            "type": "message",
-            "label": "action",
-            "text": "hello"
-        }
-    }
-}
-
-
-def createFlexBubbleSMEs(smes):
-    temp = []
-    for i in smes:
-        tempTemplate = copy.deepcopy(contentTemplate)
-
-        tempTemplate["action"]["label"] = i["name"]
-        tempTemplate["action"]["text"] = "smeems sme " + i["id"]
-
-        temp.append(tempTemplate)
-
-    bubbleJSON["body"]["contents"] = temp
-    return bubbleJSON
-
 
 def command_smes_list(event):
     smes = get_smes()
@@ -74,7 +17,6 @@ def command_smes_list(event):
         line_bot_api.reply_message(
             event.reply_token,
             FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
-            # TextSendMessage(text=flexMessage)
         )
     else:
         text_reply = 'No SME found'
