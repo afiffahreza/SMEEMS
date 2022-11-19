@@ -46,7 +46,7 @@ def command_plans_list(event, sme_id):
     if sme is not None:
         plans = get_plans(sme['id'])
         if len(plans) > 0:
-            flexMessage = createFlexBubbleSMEPlans(plans)
+            flexMessage = createFlexBubbleSMEPlans(sme, plans)
             line_bot_api.reply_message(
                 event.reply_token,
                 FlexSendMessage(alt_text='Available Plans', contents=flexMessage)

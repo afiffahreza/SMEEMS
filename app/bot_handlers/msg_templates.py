@@ -176,7 +176,7 @@ SMEBubbleJSON = {
         "contents": [
             {
                 "type": "text",
-                "text": "Placeholder",
+                "text": "Pick an SME!",
                 "margin": "lg",
                 "size": "xxl",
                 "weight": "bold"
