@@ -4,7 +4,7 @@ from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
-from app.bot_handlers.msg_templates import createFlexBubbleSMEs
+from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo
 import uuid
 
 print('Loading sme commands...')
@@ -13,7 +13,6 @@ def command_smes_list(event):
     smes = get_smes()
     if len(smes) > 0:
         flexMessage = createFlexBubbleSMEs(smes)
-        print(flexMessage)
         line_bot_api.reply_message(
             event.reply_token,
             FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
@@ -29,14 +28,17 @@ def command_smes_list(event):
 def command_sme_info(event, sme_id):
     sme = get_sme(sme_id)
     if sme is not None:
-        text_reply = 'SME info:\n'
-        text_reply += 'Name: ' + sme['name'] + '\n'
-        text_reply += 'Email: ' + sme['email'] + '\n'
+        flexMessage = createFlexBubbleSMEInfo(sme)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='SME Info', contents=flexMessage)
+        )
     else:
         text_reply = 'SME not found'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_reply))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=text_reply)
+        )
 
 
 def command_plans_list(event, sme_id):
