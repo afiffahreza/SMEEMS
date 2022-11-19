@@ -168,7 +168,7 @@ def createFlexBubbleSMEInfo(sme):
 
 # ==================== SME Plan List ====================
 
-SMEBubbleJSON = {
+SMEPlanBubbleJSON = {
     "type": "bubble",
     "hero": {
         "type": "box",
@@ -176,7 +176,7 @@ SMEBubbleJSON = {
         "contents": [
             {
                 "type": "text",
-                "text": "Pick an SME!",
+                "text": "Placeholder",
                 "margin": "lg",
                 "size": "xxl",
                 "weight": "bold"
@@ -214,6 +214,6 @@ def createFlexBubbleSMEPlans(sme, plans):
         temp.append(tempButtonTemplate)
         temp.append(copy.deepcopy(separatorTemplate))
 
-    SMEBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
-    SMEBubbleJSON["body"]["contents"] = temp
+    SMEPlanBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
+    SMEPlanBubbleJSON["body"]["contents"] = temp
     return SMEBubbleJSON
