@@ -1,7 +1,7 @@
 from . import smes_ref
 
 # CRUD for smes
-# smes attributes: id, name, email, password
+# smes attributes: id, name, email, address, description password
 
 def create_sme(sme_data):
     # Create a new sme
