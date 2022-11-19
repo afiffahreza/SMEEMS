@@ -80,7 +80,8 @@ successJSON = {
         "contents": [
         {
             "type": "text",
-            "text": "Success Message"
+            "text": "Success Message",
+            "wrap": true
         }
         ]
     }
@@ -128,7 +129,8 @@ errorJSON = {
         "contents": [
         {
             "type": "text",
-            "text": "Error Message"
+            "text": "Error Message",
+            "wrap": true
         }
         ]
     }
