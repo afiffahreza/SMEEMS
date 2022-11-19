@@ -4,7 +4,7 @@ from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
-from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo, createFlexBubbleSMEPlans
+from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo, createFlexBubbleSMEPlans, createFlexBubbleError
 import uuid
 
 print('Loading sme commands...')
@@ -18,10 +18,11 @@ def command_smes_list(event):
             FlexSendMessage(alt_text='Available SMEs', contents=flexMessage)
         )
     else:
-        text_reply = 'No SME found'
+        error_msg = 'No SME found'
+        flexMessage = createFlexBubbleError(error_msg)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=text_reply)
+            FlexSendMessage(alt_text=error_msg, contents=flexMessage)
         )
 
 
@@ -34,10 +35,11 @@ def command_sme_info(event, sme_id):
             FlexSendMessage(alt_text='SME Info', contents=flexMessage)
         )
     else:
-        text_reply = 'SME not found'
+        error_msg = 'SME not found'
+        flexMessage = createFlexBubbleError(error_msg)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=text_reply)
+            FlexSendMessage(alt_text=error_msg, contents=flexMessage)
         )
 
 
@@ -52,12 +54,19 @@ def command_plans_list(event, sme_id):
                 FlexSendMessage(alt_text='Available Plans', contents=flexMessage)
             )
         else:
-            text_reply = 'No plan found for ' + sme['name']
+            error_msg = 'No plan found'
+            flexMessage = createFlexBubbleError(error_msg)
+            line_bot_api.reply_message(
+                event.reply_token,
+                FlexSendMessage(alt_text=error_msg, contents=flexMessage)
+            )
     else:
-        text_reply = 'SME not found'
+        error_msg = 'SME not found'
+        flexMessage = createFlexBubbleError(error_msg)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=text_reply))
+            FlexSendMessage(alt_text=error_msg, contents=flexMessage)
+        )
 
 
 def command_subscription_list(event):

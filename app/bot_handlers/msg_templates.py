@@ -42,6 +42,54 @@ separatorTemplate = {
     "margin": "lg"
 }
 
+# ==================== Warning Messages ====================
+
+errorJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/3756/3756712.png",
+            "size": "40px"
+        },
+        {
+            "type": "text",
+            "text": "Warning",
+            "margin": "lg",
+            "size": "xl",
+            "weight": "bold"
+        },
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/3756/3756712.png",
+            "size": "40px"
+        }
+        ],
+        "spacing": "xs",
+        "margin": "lg",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "paddingAll": "10px"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+            "type": "text",
+            "text": "Error Message"
+        }
+        ]
+    }
+}
+
+def createFlexBubbleError(error):
+    errorJSON["body"]["contents"][0]["text"] = error
+    return errorJSON
+
 # ==================== SME List ====================
 
 SMEBubbleJSON = {
@@ -216,4 +264,4 @@ def createFlexBubbleSMEPlans(sme, plans):
 
     SMEPlanBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
     SMEPlanBubbleJSON["body"]["contents"] = temp
-    return SMEBubbleJSON
+    return SMEPlanBubbleJSON
