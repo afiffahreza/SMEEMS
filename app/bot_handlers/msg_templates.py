@@ -76,6 +76,24 @@ inactivePlanTemplate = {
         "style": "primary",
         "color": "#FF735C",
         "margin": "lg"
+        },
+        {
+        "type": "text",
+        "text": "OR",
+        "margin": "md",
+        "wrap": true,
+        "align": "center"
+        },
+        {
+        "type": "button",
+        "action": {
+            "type": "message",
+            "label": "Remove Subscription",
+            "text": "text"
+        },
+        "style": "primary",
+        "color": "#FF735C",
+        "margin": "lg"
         }
     ]
 }
@@ -515,6 +533,7 @@ def createFlexBubbleSubscriptionList(subscriptions):
 
             # change button
             tempInactiveTemplate["contents"][3]["action"]["text"] = "smeems pay " + data["id"]
+            tempInactiveTemplate["contents"][5]["action"]["text"] = "smeems unsubscribe " + data["id"]
 
             temp.append(tempInactiveTemplate)
 

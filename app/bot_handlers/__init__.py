@@ -3,7 +3,7 @@ from linebot.models import (
 )
 from app.bot_handlers.ping import command_ping
 from app.bot_handlers.user_cmd import command_help, command_register, command_subscription_list
-from app.bot_handlers.sme_cmd import command_smes_list, command_sme_info, command_plans_list, command_subscribe
+from app.bot_handlers.sme_cmd import command_smes_list, command_sme_info, command_plans_list, command_subscribe, command_unsubscribe
 from app.bot_handlers.promo_cmd import command_promo
 from app.config.line import handler
 
@@ -35,6 +35,9 @@ def handle_message(event):
         elif command == 'subscribe':
             plan_id = text.split(' ')[2]
             command_subscribe(event, plan_id)
+        elif command == 'unsubscribe':
+            subscription_id = text.split(' ')[2]
+            command_unsubscribe(event, subscription_id)
         elif command == 'promo':
             sme_id = text.split(' ')[2]
             command_promo(event, sme_id)

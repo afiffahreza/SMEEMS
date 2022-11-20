@@ -1,7 +1,7 @@
 from linebot.models import FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.users import get_user
-from app.services.subscriptions import get_subscriptions, create_subscription
+from app.services.subscriptions import get_subscriptions, create_subscription, get_subscription, delete_subscription
 from app.services.plans import get_plan, get_plans
 from app.services.smes import get_sme, get_smes
 from app.bot_handlers.msg_templates import createFlexBubbleSMEs, createFlexBubbleSMEInfo, createFlexBubbleSMEPlans, createFlexBubbleError, createFlexBubbleSuccess
@@ -116,6 +116,28 @@ def command_subscribe(event, plan_id):
     
     else:
         text_reply='You are not registered'
+        flexMessage = createFlexBubbleError(text_reply)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text=text_reply, contents=flexMessage)
+        )
+
+def command_unsubscribe(event, subscription_id):
+    # check if subscription exist
+    subscription = get_subscription(subscription_id)
+    if subscription is not None:
+        # check if the subscription is owned by the user
+        if subscription['user_id'] == event.source.user_id:
+            # delete the subscription
+            delete_subscription(subscription_id)
+            text_reply='You have unsubscribed from the plan'
+            flexMessage = createFlexBubbleSuccess(text_reply)
+            line_bot_api.reply_message(
+                event.reply_token,
+                FlexSendMessage(alt_text=text_reply, contents=flexMessage)
+            )
+    else:
+        text_reply='Subscription not found'
         flexMessage = createFlexBubbleError(text_reply)
         line_bot_api.reply_message(
             event.reply_token,
