@@ -385,27 +385,27 @@ SMEInfoBubbleJSON = {
                 "type": "text",
                 "text": "Address:",
                 "margin": "md",
-                "weight": "bold",
-                "wrap": true
+                "weight": "bold"
             },
             {
                 "type": "text",
                 "text": "address",
                 "margin": "md",
-                "color": "#FF735C"
+                "color": "#FF735C",
+                "wrap": true
             },
             {
                 "type": "text",
                 "text": "Description:",
                 "margin": "md",
-                "weight": "bold",
-                "wrap": true
+                "weight": "bold"
             },
             {
                 "type": "text",
                 "text": "description",
                 "color": "#FF735C",
-                "margin": "md"
+                "margin": "md",
+                "wrap": true
             },
             {
                 "type": "button",
