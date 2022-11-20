@@ -293,24 +293,27 @@ SMEPlanBubbleJSON = {
 
 def createFlexBubbleSMEPlans(sme, plans):
     temp = []
-    for i in plans:
+    for i, data in enumerate(plans):
         tempHeaderTemplate = copy.deepcopy(headerTextTemplate)
         tempPriceTemplate = copy.deepcopy(priceTextTemplate)
         tempDescriptionTemplate = copy.deepcopy(descriptionTextTemplate)
         tempButtonTemplate = copy.deepcopy(buttonTemplate)
 
-        tempHeaderTemplate["text"] = i["name"]
-        tempPriceTemplate["text"] = "$" + str(i["price"])
-        tempDescriptionTemplate["text"] = i["description"]
+        tempHeaderTemplate["text"] = data["name"]
+        tempPriceTemplate["text"] = "$" + str(data["price"])
+        tempDescriptionTemplate["text"] = data["description"]
 
         tempButtonTemplate["action"]["label"] = "Click to Subscribe"
-        tempButtonTemplate["action"]["text"] = "smeems subscribe " + i["id"]
+        tempButtonTemplate["action"]["text"] = "smeems subscribe " + data["id"]
 
         temp.append(tempHeaderTemplate)
         temp.append(tempPriceTemplate)
         temp.append(tempDescriptionTemplate)
         temp.append(tempButtonTemplate)
-        temp.append(copy.deepcopy(separatorTemplate))
+
+        # if not last element append separator
+        if i != len(plans) - 1:
+            temp.append(separatorTemplate)
 
     SMEPlanBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
     SMEPlanBubbleJSON["body"]["contents"] = temp
