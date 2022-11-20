@@ -1,6 +1,7 @@
-from linebot.models import TextSendMessage
+from linebot.models import TextSendMessage, FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.smes import get_sme
+from app.bot_handlers.msg_templates import createFlexBubblePromoInfo, createFlexBubbleError
 import requests
 
 print('Loading promo commands...')
@@ -39,7 +40,7 @@ def langcode_mw(sme_id):
     sme = get_sme(sme_id)
     sme_name = sme['name']
     # generate question using sme name
-    question = 'What is the promo for ' + sme_name + '?'
+    question = 'Is there any discount for ' + sme_name + '?'
     # request to langcode
     req_msg = {
         "botId": "ed40f64c-31fa-4a02-b45d-0816a34a1e14",
@@ -57,10 +58,15 @@ def command_promo(event, sme_id):
     promo = langcode_mw(sme_id)
     # generate reply
     if promo[0]['answer'] is not None:
-        text_reply = 'Promo for ' + sme_name + ':\n'
-        text_reply += promo[0]['answer']['shortAnswer']
+        reply = createFlexBubblePromoInfo(sme_name, promo[0]['answer']['shortAnswer'], promo[0]['answer']['document']['url'])
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='Promo Info', contents=reply)
+        )
     else :
-        text_reply = 'No promo for ' + sme_name
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_reply))
+        text_reply = 'Sorry, there is currently no promo for ' + sme_name
+        flexMessage = createFlexBubbleError(text_reply)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='Error', contents=flexMessage)
+        )

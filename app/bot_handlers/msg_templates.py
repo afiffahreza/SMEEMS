@@ -415,6 +415,17 @@ SMEInfoBubbleJSON = {
                 "style": "primary",
                 "color": "#FF735C",
                 "margin": "lg"
+            },
+            {
+                "type": "button",
+                "action": {
+                "type": "message",
+                "label": "Promo",
+                "text": "text"
+                },
+                "style": "primary",
+                "color": "#FF735C",
+                "margin": "lg"
             }
         ]
     }
@@ -426,6 +437,7 @@ def createFlexBubbleSMEInfo(sme):
     SMEInfoBubbleJSON["body"]["contents"][3]["text"] = sme["address"]
     SMEInfoBubbleJSON["body"]["contents"][5]["text"] = sme["description"]
     SMEInfoBubbleJSON["body"]["contents"][6]["action"]["text"] = "smeems plans " + sme["id"]
+    SMEInfoBubbleJSON["body"]["contents"][7]["action"]["text"] = "smeems promo " + sme["id"]
     return SMEInfoBubbleJSON
 
 # ==================== SME Plan List ====================
@@ -484,6 +496,7 @@ def createFlexBubbleSMEPlans(sme, plans):
     return SMEPlanBubbleJSON
 
 # ==================== Subscription List ====================
+
 SubscriptionBubbleJSON = {
     "type": "bubble",
     "hero": {
@@ -556,3 +569,64 @@ def createFlexBubbleSubscriptionList(subscriptions):
 
     SubscriptionBubbleJSON["body"]["contents"] = temp
     return SubscriptionBubbleJSON
+
+# ==================== Promo List ====================
+PromoBubbleJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/8906/8906480.png",
+            "size": "30px"
+        },
+        {
+            "type": "text",
+            "text": "Discount",
+            "margin": "lg",
+            "size": "20px",
+            "weight": "bold",
+            "wrap": true
+        },
+        {
+            "type": "image",
+            "url": "https://cdn-icons-png.flaticon.com/512/8906/8906480.png",
+            "size": "30px"
+        }
+        ],
+        "spacing": "xs",
+        "margin": "lg",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "paddingAll": "10px"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+            "type": "text",
+            "text": "The discount for the selected SME is 50%",
+            "wrap": true
+        },
+        {
+            "type": "button",
+            "action": {
+            "type": "uri",
+            "label": "Open Details",
+            "uri": "http://linecorp.com/"
+            },
+            "margin": "lg",
+            "color": "#FF735C",
+            "style": "primary"
+        }
+        ]
+    }
+}
+
+def createFlexBubblePromoInfo(promo, link):
+    PromoBubbleJSON["body"]["contents"][0]["text"] = promo
+    PromoBubbleJSON["body"]["contents"][1]["action"]["uri"] = link
+    return PromoBubbleJSON
