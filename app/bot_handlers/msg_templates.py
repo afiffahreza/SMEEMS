@@ -422,7 +422,7 @@ SMEInfoBubbleJSON = {
                 "type": "button",
                 "action": {
                 "type": "message",
-                "label": "Promo",
+                "label": "Discount Promo",
                 "text": "text"
                 },
                 "style": "primary",
