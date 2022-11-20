@@ -385,7 +385,8 @@ SMEInfoBubbleJSON = {
                 "type": "text",
                 "text": "Address:",
                 "margin": "md",
-                "weight": "bold"
+                "weight": "bold",
+                "wrap": true
             },
             {
                 "type": "text",
@@ -397,7 +398,8 @@ SMEInfoBubbleJSON = {
                 "type": "text",
                 "text": "Description:",
                 "margin": "md",
-                "weight": "bold"
+                "weight": "bold",
+                "wrap": true
             },
             {
                 "type": "text",
@@ -586,7 +588,7 @@ PromoBubbleJSON = {
             "type": "text",
             "text": "Discount",
             "margin": "lg",
-            "size": "20px",
+            "size": "18px",
             "weight": "bold",
             "wrap": true
         },

@@ -58,7 +58,10 @@ def command_promo(event, sme_id):
     promo = langcode_mw(sme_id)
     # generate reply
     if promo[0]['answer'] is not None:
-        reply = createFlexBubblePromoInfo(promo[0]['answer']['shortAnswer'], promo[0]['answer']['document']['url'])
+        reply = createFlexBubblePromoInfo(
+            "The discount for the selected SME is " + promo[0]['answer']['shortAnswer'], 
+            promo[0]['answer']['document']['url']
+        )
         line_bot_api.reply_message(
             event.reply_token,
             FlexSendMessage(alt_text='Promo Info', contents=reply)
