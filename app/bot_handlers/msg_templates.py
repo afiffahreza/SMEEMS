@@ -1,4 +1,6 @@
 import copy
+from app.services.smes import get_sme
+from app.services.plans import get_plan
 
 # ==================== Templates ====================
 
@@ -28,7 +30,7 @@ priceTextTemplate = {
     "text": "$20",
     "margin": "md",
     "color": "#FF735C"
-    }
+}
 
 descriptionTextTemplate = {
     "type": "text",
@@ -40,6 +42,150 @@ descriptionTextTemplate = {
 separatorTemplate = {
     "type": "separator",
     "margin": "lg"
+}
+
+inactivePlanTemplate = {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+        {
+        "type": "text",
+        "text": "Subscription name",
+        "margin": "md",
+        "weight": "bold"
+        },
+        {
+        "type": "text",
+        "text": "SME Name",
+        "margin": "md",
+        "color": "#FF735C"
+        },
+        {
+        "type": "text",
+        "text": "This is a placeholder for the plan description that the user has",
+        "margin": "md",
+        "wrap": true
+        },
+        {
+        "type": "button",
+        "action": {
+            "type": "message",
+            "label": "Pay to Activate",
+            "text": "text"
+        },
+        "style": "primary",
+        "color": "#FF735C",
+        "margin": "lg"
+        }
+    ]
+}
+
+activePlanTemplate = {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+        {
+        "type": "text",
+        "text": "Basic Plan",
+        "margin": "md",
+        "weight": "bold"
+        },
+        {
+        "type": "text",
+        "text": "Hi Brew Coffee",
+        "margin": "md",
+        "color": "#FF735C"
+        },
+        {
+        "type": "text",
+        "text": "Free 15% off for all drinks",
+        "margin": "md",
+        "wrap": true
+        },
+        {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+            {
+            "type": "text",
+            "text": "Active until",
+            "align": "start",
+            "color": "#0c9905",
+            "weight": "bold"
+            },
+            {
+            "type": "text",
+            "text": "12-12-2022",
+            "align": "end"
+            }
+        ],
+        "margin": "md",
+        "alignItems": "flex-start",
+        "justifyContent": "flex-start"
+        }
+    ]
+}
+
+expiredPlanTemplate = {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+        {
+        "type": "text",
+        "text": "Gold Plan",
+        "margin": "md",
+        "weight": "bold"
+        },
+        {
+        "type": "text",
+        "text": "Peza Pizza",
+        "margin": "md",
+        "color": "#FF735C"
+        },
+        {
+        "type": "text",
+        "text": "Free 15% off for all drinks",
+        "margin": "md",
+        "wrap": true
+        },
+        {
+        "type": "text",
+        "text": "Expired",
+        "margin": "md",
+        "align": "start",
+        "color": "#FF0000",
+        "weight": "bold"
+        },
+        {
+        "type": "button",
+        "action": {
+            "type": "message",
+            "label": "Pay to Renew",
+            "text": "text"
+        },
+        "style": "primary",
+        "color": "#FF735C",
+        "margin": "lg"
+        },
+        {
+        "type": "text",
+        "text": "OR",
+        "margin": "md",
+        "wrap": true,
+        "align": "center"
+        },
+        {
+        "type": "button",
+        "action": {
+            "type": "message",
+            "label": "Remove Subscription",
+            "text": "text"
+        },
+        "style": "primary",
+        "color": "#FF735C",
+        "margin": "lg"
+        }
+    ]
 }
 
 # ==================== Success Messages ====================
@@ -318,3 +464,76 @@ def createFlexBubbleSMEPlans(sme, plans):
     SMEPlanBubbleJSON["hero"]["contents"][0]["text"] = sme["name"] + " Plans"
     SMEPlanBubbleJSON["body"]["contents"] = temp
     return SMEPlanBubbleJSON
+
+# ==================== Subscription List ====================
+SubscriptionBubbleJSON = {
+    "type": "bubble",
+    "hero": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+        {
+            "type": "text",
+            "text": "Your Subscription",
+            "size": "xxl",
+            "weight": "bold",
+            "margin": "lg"
+        }
+        ],
+        "alignItems": "center"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": []
+    }
+}
+
+def createFlexBubbleSubscriptionList(subscriptions):
+    temp = []
+    for i, data in enumerate(subscriptions):
+
+        # get plan info from data["plan_id"]
+        plan = get_plan(data["plan_id"])
+        # get sme name from plan["sme_id"]
+        sme = get_sme(plan["sme_id"])
+
+        if data["status"] == "active":
+            tempActiveTemplate = copy.deepcopy(activePlanTemplate)
+            tempActiveTemplate["contents"][0]["text"] = plan["name"]
+            tempActiveTemplate["contents"][1]["text"] = sme["name"]
+            tempActiveTemplate["contents"][2]["text"] = plan["description"]
+            tempActiveTemplate["contents"][3]["contents"][1]["text"] = data["end_date"]
+
+            temp.append(tempActiveTemplate)
+
+        elif data["status"] == "inactive":
+            tempInactiveTemplate = copy.deepcopy(inactivePlanTemplate)
+            tempInactiveTemplate["contents"][0]["text"] = plan["name"]
+            tempInactiveTemplate["contents"][1]["text"] = sme["name"]
+            tempInactiveTemplate["contents"][2]["text"] = plan["description"]
+
+            # change button
+            tempInactiveTemplate["contents"][3]["action"]["text"] = "smeems pay " + data["id"]
+
+            temp.append(tempInactiveTemplate)
+
+        elif data["status"] == "expired":
+            tempExpiredTemplate = copy.deepcopy(expiredPlanTemplate)
+            tempExpiredTemplate["contents"][0]["text"] = plan["name"]
+            tempExpiredTemplate["contents"][1]["text"] = sme["name"]
+            tempExpiredTemplate["contents"][2]["text"] = plan["description"]
+
+            # change button
+            tempExpiredTemplate["contents"][4]["action"]["text"] = "smeems pay " + data["id"]
+            tempExpiredTemplate["contents"][6]["action"]["text"] = "smeems unsubscribe " + data["id"]
+
+
+            temp.append(tempExpiredTemplate)
+
+        # if not last element append separator
+        if i != len(subscriptions) - 1:
+            temp.append(separatorTemplate)
+
+    SubscriptionBubbleJSON["body"]["contents"] = temp
+    return SubscriptionBubbleJSON

@@ -1,4 +1,4 @@
-from linebot.models import TextSendMessage, FlexSendMessage
+from linebot.models import FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.users import get_user
 from app.services.subscriptions import get_subscriptions, create_subscription
@@ -67,25 +67,6 @@ def command_plans_list(event, sme_id):
             event.reply_token,
             FlexSendMessage(alt_text=error_msg, contents=flexMessage)
         )
-
-
-def command_subscription_list(event):
-    user = get_user(event.source.user_id)
-    if user is not None:
-        subscriptions = get_subscriptions(user['id'])
-        if len(subscriptions) > 0:
-            text_reply='Your subscriptions:\n'
-            for subscription in subscriptions:
-                plan = get_plan(subscription['plan_id'])
-                sme = get_sme(plan['sme_id'])
-                text_reply += sme['name'] + ' ' + plan['name'] + '\n'
-        else:
-            text_reply='You have no subscription'
-    else:
-        text_reply='You are not registered'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=text_reply))
 
 
 def command_subscribe(event, plan_id):
