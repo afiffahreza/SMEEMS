@@ -7,7 +7,7 @@ from linebot.exceptions import (
 )
 
 # import blueprints
-from app.blueprints import plans_controller, promos_controller, smes_controller
+from app.blueprints import plans_controller, promos_controller, smes_controller, subscriptions_controller
 
 # seed database
 from app.config.seed import seed
@@ -45,3 +45,4 @@ def hello():
 app.register_blueprint(plans_controller.plans_bp)
 app.register_blueprint(promos_controller.promos_bp)
 app.register_blueprint(smes_controller.smes_bp)
+app.register_blueprint(subscriptions_controller.subs_bp)

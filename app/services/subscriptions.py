@@ -23,6 +23,11 @@ def get_subscriptions(user_id):
     subscriptions = subscriptions_ref.where('user_id', '==', user_id).stream()
     return [subscription.to_dict() for subscription in subscriptions]
 
+def get_subscribers(plan_id):
+    # Get all subscriber of a plan
+    subscriptions = subscriptions_ref.where('plan_id', '==', plan_id).stream()
+    return [subscription.to_dict() for subscription in subscriptions]
+
 def update_subscription(subscription_id, subscription_data):
     # Update a subscription
     subscription_ref = subscriptions_ref.document(subscription_id)
