@@ -44,7 +44,7 @@ def auth_sme():
         return {'message': 'SME does not exist'}, 404
     if sme['password'] != sme_data['password']:
         return {'message': 'Invalid password'}, 401
-    return {'message': 'SME authenticated successfully'}, 200
+    return {'message': 'SME authenticated successfully', 'sme_id': sme['id']}, 200
 
 # SME Registration
 @smes_bp.route('/register', methods=['POST'])
