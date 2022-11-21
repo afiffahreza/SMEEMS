@@ -1,4 +1,4 @@
-from app.services import plans, smes
+from app.services import plans, smes, steppay
 from flask import Blueprint, request
 import uuid
 
@@ -54,4 +54,9 @@ def create_plan():
     plan_data = request.get_json()
     # inject randomly generated id
     plan_data['id'] = str(uuid.uuid4())
+
+    # create a new steppay plan
+    steppay_plan = steppay.create_steppay_plan(plan_data['name'], plan_data['price'], plan_data['description'])
+    plan_data['steppay_price_code'] = steppay_plan['code']
+
     return plans.create_plan(plan_data)
