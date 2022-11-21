@@ -39,7 +39,7 @@ def auth_sme():
     }
     """
     sme_data = request.get_json()
-    sme = smes.get_sme(sme_data['email'])
+    sme = smes.get_sme_email(sme_data['email'])
     if sme is None:
         return {'message': 'SME does not exist'}, 404
     if sme['password'] != sme_data['password']:

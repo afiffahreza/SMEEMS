@@ -18,6 +18,14 @@ def get_sme(sme_id):
     else:
         return None
 
+def get_sme_email(sme_email):
+    # Get a sme by email
+    smes = get_smes()
+    for sme in smes:
+        if sme['email'] == sme_email:
+            return sme
+    return None
+
 def get_smes():
     # Get all smes
     smes = []
