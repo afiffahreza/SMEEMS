@@ -1,7 +1,7 @@
 from linebot.models import TextSendMessage, FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.users import create_user, get_user
-from app.services.subscriptions import get_subscriptions, get_subscription
+from app.services.subscriptions import get_subscriptions, get_subscription, update_subscription
 from app.services.steppay import create_steppay_user, create_steppay_invoice
 from app.services.plans import get_plan
 from app.bot_handlers.msg_templates import createFlexBubbleError, createFlexBubbleSuccess, createFlexBubbleSubscriptionList
@@ -97,6 +97,7 @@ def command_pay(event, subscription_id):
         subscription['status'] = 'active'
         subscription['start_date'] = date.today().strftime("%d-%m-%y")
         subscription['end_date'] = (date.today() + relativedelta(months=1)).strftime("%d-%m-%y")
+        update_subscription(subscription_id, subscription)
 
         flexMessage = createFlexBubbleSuccess(steppay_invoice)
         line_bot_api.reply_message(
