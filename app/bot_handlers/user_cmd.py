@@ -5,7 +5,8 @@ from app.services.subscriptions import get_subscriptions, get_subscription
 from app.services.steppay import create_steppay_user, create_steppay_invoice
 from app.services.plans import get_plan
 from app.bot_handlers.msg_templates import createFlexBubbleError, createFlexBubbleSuccess, createFlexBubbleSubscriptionList
-
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 print('Loading user commands...')
 
@@ -91,6 +92,11 @@ def command_pay(event, subscription_id):
 
         # create steppay invoice
         steppay_invoice = create_steppay_invoice(user['steppay_uid'], plan['steppay_price_code'])
+
+        # update subscription to active and change start date and end date
+        subscription['status'] = 'active'
+        subscription['start_date'] = date.today().strftime("%d-%m-%y")
+        subscription['end_date'] = (date.today() + relativedelta(months=1)).strftime("%d-%m-%y")
 
         flexMessage = createFlexBubbleSuccess(steppay_invoice)
         line_bot_api.reply_message(

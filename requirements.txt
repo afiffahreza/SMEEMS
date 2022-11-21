@@ -4,3 +4,4 @@ line-bot-sdk
 python-dotenv
 gunicorn
 flask-cors
+python-dateutil
