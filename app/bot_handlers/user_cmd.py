@@ -1,4 +1,4 @@
-from linebot.models import TextSendMessage, FlexSendMessage
+from linebot.models import FlexSendMessage
 from app.config.line import line_bot_api
 from app.services.users import create_user, get_user
 from app.services.subscriptions import get_subscriptions, get_subscription, update_subscription
@@ -11,18 +11,130 @@ from dateutil.relativedelta import relativedelta
 print('Loading user commands...')
 
 def command_help(event):
-    text_reply='Available commands:\n'
-    text_reply += 'smeems ping\n'
-    text_reply += 'smeems help\n'
-    text_reply += 'smeems register <email>\n'
-    text_reply += 'smeems smes\n'
-    text_reply += 'smeems sme <sme_id>\n'
-    text_reply += 'smeems plans <sme_id>\n'
-    text_reply += 'smeems subscriptions\n'
-    text_reply += 'smeems subscribe <plan_id>\n'
+    true = True
+    help = {
+        "type": "bubble",
+        "hero": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+            {
+                "type": "image",
+                "url": "https://cdn-icons-png.flaticon.com/512/1828/1828833.png",
+                "size": "50px"
+            },
+            {
+                "type": "text",
+                "text": "SMEEMS HELP",
+                "margin": "lg",
+                "size": "20px",
+                "weight": "bold",
+                "wrap": true,
+                "align": "center"
+            },
+            {
+                "type": "image",
+                "url": "https://cdn-icons-png.flaticon.com/512/1828/1828833.png",
+                "size": "50px"
+            }
+            ],
+            "alignItems": "center",
+            "justifyContent": "center",
+            "paddingAll": "10px",
+            "margin": "lg",
+            "spacing": "xs"
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "smeems",
+                    "margin": "md",
+                    "weight": "bold",
+                    "color": "#FF735C"
+                },
+                {
+                    "type": "text",
+                    "text": "List out all available bot commands.",
+                    "margin": "md",
+                    "weight": "regular",
+                    "wrap": true
+                }
+                ]
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "smeems register <email>",
+                    "margin": "md",
+                    "weight": "bold",
+                    "color": "#FF735C"
+                },
+                {
+                    "type": "text",
+                    "text": "Register your account with an email.",
+                    "margin": "md",
+                    "weight": "regular",
+                    "wrap": true
+                }
+                ]
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "smeems smes",
+                    "margin": "md",
+                    "weight": "bold",
+                    "color": "#FF735C"
+                },
+                {
+                    "type": "text",
+                    "text": "List out all available SMEs. Click the interactive button for SME Info, Discount, and Plans.",
+                    "margin": "md",
+                    "weight": "regular",
+                    "wrap": true
+                }
+                ]
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "smeems subscriptions",
+                    "margin": "md",
+                    "weight": "bold",
+                    "color": "#FF735C"
+                },
+                {
+                    "type": "text",
+                    "text": "List out all of your subscriptions.",
+                    "margin": "md",
+                    "weight": "regular",
+                    "wrap": true
+                }
+                ]
+            }
+            ]
+        }
+    }
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=text_reply))
+        FlexSendMessage(alt_text='Help', contents=help)
+    )
 
 def command_register(event, email):
     # check if user already registered
