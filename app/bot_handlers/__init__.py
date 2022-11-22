@@ -12,7 +12,9 @@ print('Loading handlers...')
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
-    if text.startswith('smeems '):
+    if text == 'smeems':
+        command_help(event)
+    elif text.startswith('smeems '):
         command = text.split(' ')[1]
         print("Command: " + command)
         if command == 'ping':
