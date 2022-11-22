@@ -21,13 +21,13 @@ def command_help(event):
             {
                 "type": "image",
                 "url": "https://cdn-icons-png.flaticon.com/512/1828/1828833.png",
-                "size": "50px"
+                "size": "40px"
             },
             {
                 "type": "text",
                 "text": "SMEEMS HELP",
                 "margin": "lg",
-                "size": "20px",
+                "size": "18px",
                 "weight": "bold",
                 "wrap": true,
                 "align": "center"
@@ -35,7 +35,7 @@ def command_help(event):
             {
                 "type": "image",
                 "url": "https://cdn-icons-png.flaticon.com/512/1828/1828833.png",
-                "size": "50px"
+                "size": "40px"
             }
             ],
             "alignItems": "center",
