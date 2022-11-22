@@ -143,16 +143,16 @@ def command_register(event, email):
         profile = line_bot_api.get_profile(event.source.user_id)
 
         # create steppay user
-        # steppay_user = create_steppay_user(profile.display_name, email)
+        steppay_user = create_steppay_user(profile.display_name, email)
 
-        # user_data = {
-        #     'id': event.source.user_id,
-        #     'name': profile.display_name,
-        #     'email': email,
-        #     'line_uid': event.source.user_id,
-        #     'steppay_uid': steppay_user['id']
-        # }
-        # create_user(user_data)
+        user_data = {
+            'id': event.source.user_id,
+            'name': profile.display_name,
+            'email': email,
+            'line_uid': event.source.user_id,
+            # 'steppay_uid': steppay_user['id']
+        }
+        create_user(user_data)
 
         text_reply='Hi ' + profile.display_name + ', you are now registered with email ' + email
         flexMessage = createFlexBubbleSuccess(text_reply)
